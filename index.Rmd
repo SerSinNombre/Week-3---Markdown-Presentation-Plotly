@@ -1,5 +1,5 @@
 ---
-title: "Week 3 - Assigment"
+title: "Week 3 - Assignment"
 author: "S.J.A."
 date: "21/1/2022"
 output: ioslides_presentation
