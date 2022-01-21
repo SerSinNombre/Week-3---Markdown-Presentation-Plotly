@@ -1,0 +1,81 @@
+---
+title: "Week 3 - Assigment"
+author: "S.J.A."
+date: "21/1/2022"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Plot
+
+```{r plot,echo=FALSE, warning=FALSE, message=FALSE}
+library(plotly)
+# Steps and plot for each day
+steps <- list()
+fig <- plot_ly()
+ChW<-ChickWeight
+ChW$Time<-as.factor(ChW$Time)
+for (i in  1:length(levels(ChW$Time))) {
+  fig <- add_boxplot(fig,x=ChW$Diet[ChW$Time==ChW$Time[i]],  y=ChW$weight[ChW$Time==ChW$Time[i]], visible = (ChW$Time==ChW$Time[i]), 
+                 name = ChW$Time[ChW$Time==ChW$Time[i]], type = 'box')
+  
+  step <- list(args = list('visible', rep(FALSE, length(levels(ChW$Time)))),
+               method = 'restyle',label = ChW$Time[i] )
+  step$args[[2]][i] = TRUE  
+  steps[[i]] = step 
+}  
+
+# Slider control to select day number
+fig<-fig%>% 
+    layout(title = 'Chickweight for different diets',yaxis = list(title = "Weight (g)"),xaxis = list(title = "Diet"),legend = list(title=list(text='<b> Days </b>')),boxmode = "group")
+
+fig <- fig %>%
+  layout(sliders = list(list(active = 0,
+                             currentvalue = list(prefix = "Days: "),
+                             steps = steps)))
+fig
+```
+
+## Code for the plot (Part 1)
+
+```{r plot2,echo=TRUE,eval=FALSE, warning=FALSE, message=FALSE}
+library(plotly)
+# Steps and plot for each day
+steps <- list();fig <- plot_ly()
+ChW<-ChickWeight;ChW$Time<-as.factor(ChW$Time)
+for (i in  1:length(levels(ChW$Time))) {
+  fig <- add_boxplot(fig,x=ChW$Diet[ChW$Time==ChW$Time[i]],
+                     y=ChW$weight[ChW$Time==ChW$Time[i]],
+                     visible = (ChW$Time==ChW$Time[i]), 
+                 name = ChW$Time[ChW$Time==ChW$Time[i]], type = 'box')
+  
+  step <- list(args = list('visible',
+               rep(FALSE, length(levels(ChW$Time)))),
+               method = 'restyle',label = ChW$Time[i])
+  step$args[[2]][i] = TRUE  
+  steps[[i]] = step 
+}  
+```
+## Code for the plot (Part 2)
+
+```{r plot3,echo=TRUE,eval=FALSE, warning=FALSE, message=FALSE}
+
+# Slider control to select day number
+fig<-fig%>% 
+    layout(title = 'Chickweight for different diets',
+           yaxis = list(title = "Weight (g)"),
+           xaxis = list(title = "Diet"),
+           legend = list(title=list(text='<b> Days </b>')),
+           boxmode = "group")
+
+fig <- fig %>%
+  layout(sliders = list(list(active = 0,
+                             currentvalue = list(prefix = "Days: "),
+                             steps = steps)))
+fig
+```
+
+## The end
